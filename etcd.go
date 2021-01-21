@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/coreos/etcd/clientv3"
-	"github.com/coreos/etcd/clientv3/concurrency" // 分布式锁和选主
+	"github.com/coreos/etcd/clientv3/concurrency"
 )
 
 type ETCD struct {
@@ -79,7 +79,6 @@ func (etcd *ETCD) RemovePrefix(name string) (*clientv3.DeleteResponse, error) {
 	return etcd.cli.Delete(context.Background(), name, clientv3.WithPrefix())
 }
 
-// 分布式锁的使用
 func (etcd *ETCD) NewMutex(name string) (*concurrency.Mutex, error) {
 	key := fmt.Sprintf("/lock/%s", name)
 	session, err := concurrency.NewSession(etcd.cli)

@@ -2,12 +2,11 @@ package getcd
 
 import (
 	"context"
-	"github.com/hanquanding/getcd"
 	"testing"
 )
 
 func TestMutext(t *testing.T) {
-	etcd, err := getcd.New("http://localhost:2379")
+	etcd, err := New("http://localhost:2379")
 	if err != nil {
 		t.Fatal(err)
 	}

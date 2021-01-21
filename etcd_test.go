@@ -1,11 +1,13 @@
 package getcd_test
 
 import (
-	"getcd/getcd"
-	gconfig "github.com/hanquanding/go-config"
+	getcd "go-etcd"
+	"io/ioutil"
 	"log"
 	"testing"
 	"time"
+
+	"gopkg.in/yaml.v2"
 )
 
 type Config struct {
@@ -15,8 +17,21 @@ type Config struct {
 
 var config *Config
 
+func loadYml(path string, t interface{}) error {
+	data, err := ioutil.ReadFile(path)
+	if err != nil {
+		return err
+	}
+
+	err = yaml.Unmarshal(data, t)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func init() {
-	gconfig.LoadYml("conf/config.yml", &config)
+	loadYml("conf/config.yml", &config)
 }
 
 func TestEtcd(t *testing.T) {
